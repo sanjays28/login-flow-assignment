@@ -1,54 +1,67 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/utils';
+import { AuthProgressBar } from '../AuthProgressBar/AuthProgressBar';
 
 interface AuthSplitLayoutProps {
   children: ReactNode;
+  eyebrow: string;
   title: string;
-  subtitle?: string;
+  description?: string;
   illustrationSrc?: string;
   illustrationAlt?: string;
+  progressStep?: number;
+  progressTotal?: number;
   className?: string;
 }
 
 export function AuthSplitLayout({
   children,
+  eyebrow,
   title,
-  subtitle,
+  description,
   illustrationSrc,
   illustrationAlt = '',
+  progressStep,
+  progressTotal,
   className,
 }: AuthSplitLayoutProps) {
   return (
     <div
-      className={cn('flex min-h-svh flex-col bg-background lg:min-h-screen lg:flex-row', className)}
+      className={cn(
+        'flex min-h-svh items-center justify-center bg-white px-4 py-8 sm:px-6 lg:px-8',
+        className,
+      )}
     >
-      <aside className="relative flex shrink-0 flex-col bg-surface px-page-x py-6 sm:py-8 lg:w-1/2 lg:max-w-[50%] lg:py-page-y">
-        <div className="absolute inset-x-0 top-0 h-1.5 bg-accent" aria-hidden="true" />
-
-        <div className="mx-auto flex w-full max-w-md flex-col lg:min-h-full lg:justify-center">
-          {illustrationSrc ? (
-            <img
-              src={illustrationSrc}
-              alt={illustrationAlt}
-              className="mx-auto mb-4 h-36 w-auto max-w-[220px] object-contain sm:mb-6 sm:h-44 sm:max-w-[280px] lg:mb-10 lg:h-auto lg:max-w-sm"
-            />
-          ) : (
-            <div
-              className="mx-auto mb-4 h-36 w-full max-w-[220px] rounded-xl bg-surface-muted sm:mb-6 sm:h-44 sm:max-w-[280px] lg:mb-10 lg:aspect-square lg:h-auto lg:max-w-sm"
-              aria-hidden="true"
-            />
+      <div className="flex w-full max-w-5xl flex-row overflow-hidden rounded-3xl shadow-[0_8px_40px_rgba(26,31,54,0.10)]">
+        {/* Left panel — gray background with wave texture */}
+        <aside className="auth-left-panel relative flex min-h-[580px] flex-1 flex-col overflow-hidden bg-background px-10 py-12">
+          <p className="relative z-10 text-sm font-medium text-text-secondary">{eyebrow}</p>
+          <h1 className="relative z-10 mt-3 text-3xl font-bold leading-tight text-text-primary xl:text-4xl">
+            {title}
+          </h1>
+          {description && (
+            <p className="relative z-10 mt-3 max-w-sm text-sm text-text-secondary">{description}</p>
           )}
 
-          <h1 className="text-2xl font-semibold text-text-primary sm:text-3xl">{title}</h1>
-          {subtitle && (
-            <p className="mt-1.5 text-sm text-text-secondary sm:mt-2 sm:text-base">{subtitle}</p>
+          {illustrationSrc && (
+            <div className="relative z-10 mt-auto flex items-end pt-8">
+              <img
+                src={illustrationSrc}
+                alt={illustrationAlt}
+                className="w-full max-w-[360px] object-contain object-left-bottom"
+              />
+            </div>
           )}
-        </div>
-      </aside>
+        </aside>
 
-      <section className="flex flex-1 flex-col bg-surface px-page-x py-6 sm:py-8 lg:w-1/2 lg:max-w-[50%] lg:py-page-y">
-        <div className="mx-auto flex w-full max-w-md flex-1 flex-col">{children}</div>
-      </section>
+        {/* Right panel — white, form lives here */}
+        <section className="flex w-[440px] shrink-0 flex-col bg-surface px-10 py-12">
+          {progressStep !== undefined && progressTotal !== undefined && (
+            <AuthProgressBar currentStep={progressStep} totalSteps={progressTotal} />
+          )}
+          {children}
+        </section>
+      </div>
     </div>
   );
 }

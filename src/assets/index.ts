@@ -1,3 +1,7 @@
+import signupIllustration from './SignupIllustration.png';
+import reactLogo from './react.svg';
+
 export const ASSETS = {
-  logo: '/src/assets/react.svg',
+  signupIllustration,
+  logo: reactLogo,
 } as const;

@@ -5,12 +5,12 @@
   --color-accent: #ff6b2c;
 
   /* Surfaces */
-  --color-background: #1a202c;
+  --color-background: #eceef2;
   --color-surface: #ffffff;
   --color-surface-muted: #f9fafb;
 
   /* Text */
-  --color-text-primary: #111827;
+  --color-text-primary: #1a1f36;
   --color-text-secondary: #6b7280;
   --color-text-inverse: #ffffff;
   --color-text-link: #0054fd;
@@ -31,15 +31,17 @@
   --text-xl: 1.25rem;
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
 
   /* Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
 
-  /* Spacing — scales with viewport */
-  --spacing-page-x: clamp(1rem, 4vw, 2rem);
-  --spacing-page-y: clamp(1.5rem, 5vw, 2.5rem);
-  --spacing-card: clamp(1.25rem, 3vw, 2rem);
+  /* Spacing */
+  --spacing-page-x: clamp(1.25rem, 4vw, 3rem);
+  --spacing-page-y: clamp(1.5rem, 4vw, 2.5rem);
+  --spacing-card: clamp(1.5rem, 3vw, 2rem);
 }

@@ -23,4 +23,17 @@
   #root {
     min-height: 100svh;
   }
+
+  .auth-left-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url('./assets/waves.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+    pointer-events: none;
+  }
 }
