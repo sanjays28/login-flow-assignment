@@ -26,42 +26,35 @@ export function AuthSplitLayout({
   className,
 }: AuthSplitLayoutProps) {
   return (
-    <div
-      className={cn(
-        'flex min-h-svh items-center justify-center bg-white px-4 py-8 sm:px-6 lg:px-8',
-        className,
-      )}
-    >
-      <div className="flex w-full max-w-5xl flex-row overflow-hidden rounded-3xl shadow-[0_8px_40px_rgba(26,31,54,0.10)]">
-        {/* Left panel — gray background with wave texture */}
-        <aside className="auth-left-panel relative flex min-h-[580px] flex-1 flex-col overflow-hidden bg-background px-10 py-12">
-          <p className="relative z-10 text-sm font-medium text-text-secondary">{eyebrow}</p>
-          <h1 className="relative z-10 mt-3 text-3xl font-bold leading-tight text-text-primary xl:text-4xl">
-            {title}
-          </h1>
-          {description && (
-            <p className="relative z-10 mt-3 max-w-sm text-sm text-text-secondary">{description}</p>
-          )}
+    <div className={cn('auth-page relative flex min-h-svh flex-row bg-background', className)}>
+      {/* Left — sits on the gray bg, above the wave pseudo-element */}
+      <aside className="relative z-10 flex flex-1 flex-col px-10 py-12 lg:px-16">
+        <p className="text-sm font-medium text-text-secondary">{eyebrow}</p>
+        <h1 className="mt-3 text-3xl font-bold leading-tight text-text-primary xl:text-4xl">
+          {title}
+        </h1>
+        {description && <p className="mt-3 max-w-sm text-sm text-text-secondary">{description}</p>}
 
-          {illustrationSrc && (
-            <div className="relative z-10 mt-auto flex items-end pt-8">
-              <img
-                src={illustrationSrc}
-                alt={illustrationAlt}
-                className="w-full max-w-[360px] object-contain object-left-bottom"
-              />
-            </div>
-          )}
-        </aside>
+        {illustrationSrc && (
+          <div className="mt-auto pt-8">
+            <img
+              src={illustrationSrc}
+              alt={illustrationAlt}
+              className="h-auto w-full max-w-[680px] object-contain object-left-bottom"
+            />
+          </div>
+        )}
+      </aside>
 
-        {/* Right panel — white, form lives here */}
-        <section className="flex w-[440px] shrink-0 flex-col bg-surface px-10 py-12">
+      {/* Right — card centered with even margin on all sides within the half-panel */}
+      <section className="relative z-10 flex w-1/2 shrink-0 items-center justify-center p-8">
+        <div className="flex h-[895px] w-full max-w-[708px] max-h-[calc(100svh-64px)] flex-col rounded-2xl bg-surface px-16 pt-11 pb-10 shadow-[-16px_4px_35px_0_rgba(0,0,0,0.03)]">
           {progressStep !== undefined && progressTotal !== undefined && (
             <AuthProgressBar currentStep={progressStep} totalSteps={progressTotal} />
           )}
-          {children}
-        </section>
-      </div>
+          <div className="flex flex-1 flex-col">{children}</div>
+        </div>
+      </section>
     </div>
   );
 }

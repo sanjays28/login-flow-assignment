@@ -29,12 +29,11 @@ export function RoleStep({ onSubmit }: RoleStepProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
-      <h2 className="text-lg font-normal leading-snug text-text-primary sm:text-xl">
-        To join us tell us <span className="font-semibold">what type of account</span> you are
-        opening
+      <h2 className="max-w-[453px] text-2xl font-normal leading-9 text-text-primary">
+        To join us tell us <span className="font-medium">what type of account</span> you are opening
       </h2>
 
-      <fieldset className="mt-8 space-y-3">
+      <fieldset className="mt-12 space-y-3">
         <legend className="sr-only">Account type</legend>
         {ACCOUNT_TYPES.map((type) => (
           <AccountTypeOption
@@ -53,11 +52,20 @@ export function RoleStep({ onSubmit }: RoleStepProps) {
         </p>
       )}
 
-      <div className="mt-auto flex gap-3 pt-10">
-        <Button type="button" variant="outline" className="min-w-[100px]" disabled>
+      <div className="mt-auto flex items-center justify-between gap-2.5 pt-10">
+        <Button
+          type="button"
+          variant="outline"
+          className="min-w-0 flex-1 py-4 sm:w-64 sm:flex-none"
+          disabled
+        >
           Back
         </Button>
-        <Button type="submit" className="flex-1" isLoading={isSubmitting}>
+        <Button
+          type="submit"
+          className="min-w-0 flex-1 py-4 sm:w-64 sm:flex-none"
+          isLoading={isSubmitting}
+        >
           {STEP_COPY.role.cta}
         </Button>
       </div>

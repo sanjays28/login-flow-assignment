@@ -16,7 +16,7 @@ export function AccountTypeOption({ label, selected, onSelect, icon }: AccountTy
       aria-checked={selected}
       onClick={onSelect}
       className={cn(
-        'flex w-full items-center gap-4 rounded-2xl border-2 px-5 py-4 text-left transition-colors',
+        'flex h-20 w-full items-center gap-6 rounded-2xl border px-8 text-left shadow-[0_4px_8px_0_rgba(188,203,219,0.30)] transition-colors',
         selected ? 'border-primary bg-surface' : 'border-border bg-surface hover:border-primary/40',
       )}
     >
