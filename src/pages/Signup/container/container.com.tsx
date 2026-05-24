@@ -11,10 +11,6 @@ import type { PhoneFormValues } from '../schemas/phone.schema';
 import type { OtpFormValues } from '../schemas/otp.schema';
 import type { PasswordFormValues } from '../schemas/password.schema';
 
-// Steps 0-1 have no progress bar; steps 2-4 show it (1-3 of 3)
-const PROGRESS_OFFSET = 2;
-const PROGRESS_TOTAL = 3;
-
 interface ContainerComProps {
   step: number;
   signupData: { phone?: string; countryCode?: string };
@@ -34,7 +30,8 @@ export function ContainerCom({
   onPasswordSubmit,
   onBack,
 }: ContainerComProps) {
-  const progressStep = step >= PROGRESS_OFFSET ? step - PROGRESS_OFFSET + 1 : undefined;
+  const showProgress = step < SIGNUP_TOTAL_STEPS;
+  const progressStep = showProgress ? step + 1 : undefined;
   const phone =
     signupData.countryCode && signupData.phone
       ? `${signupData.countryCode} ${signupData.phone}`
@@ -49,12 +46,14 @@ export function ContainerCom({
         illustrationSrc={ASSETS.signupIllustration}
         illustrationAlt={SIGNUP_LAYOUT.illustrationAlt}
         progressStep={progressStep}
-        progressTotal={progressStep !== undefined ? PROGRESS_TOTAL : undefined}
+        progressTotal={showProgress ? SIGNUP_TOTAL_STEPS : undefined}
       >
         {step === 0 && <RoleStep onSubmit={onRoleSubmit} />}
         {step === 1 && <PhoneStep onSubmit={onPhoneSubmit} onBack={onBack} />}
         {step === 2 && <OtpStep phone={phone} onSubmit={onOtpSubmit} onBack={onBack} />}
-        {step >= 3 && <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />}
+        {step >= 3 && step < SIGNUP_TOTAL_STEPS && (
+          <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />
+        )}
       </AuthSplitLayout>
 
       {step >= SIGNUP_TOTAL_STEPS && <SuccessModal />}

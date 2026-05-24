@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, PhoneInput } from '@/components';
+import { PhoneInput } from '@/components';
 import { phoneSchema, type PhoneFormValues } from '../schemas/phone.schema';
 import { STEP_COPY } from '../config/steps.config';
+import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface PhoneStepProps {
   onSubmit: (data: PhoneFormValues) => void;
@@ -36,14 +37,11 @@ export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
         />
       </div>
 
-      <div className="mt-auto flex gap-3 pt-10">
-        <Button type="button" variant="outline" className="min-w-[100px]" onClick={onBack}>
-          Back
-        </Button>
-        <Button type="submit" className="flex-1" isLoading={isSubmitting}>
-          {STEP_COPY.phone.cta}
-        </Button>
-      </div>
+      <AuthStepFooter
+        submitLabel={STEP_COPY.phone.cta}
+        onBack={onBack}
+        isSubmitting={isSubmitting}
+      />
     </form>
   );
 }

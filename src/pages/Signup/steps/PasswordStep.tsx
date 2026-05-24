@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input } from '@/components';
+import { Input } from '@/components';
 import { passwordSchema, type PasswordFormValues } from '../schemas/password.schema';
 import { STEP_COPY } from '../config/steps.config';
+import { AuthStepFooter } from '../components/AuthStepFooter';
 
 const { fields, cta } = STEP_COPY.password;
 
@@ -68,14 +69,7 @@ export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
         </div>
       </div>
 
-      <div className="mt-auto flex gap-3 pt-10">
-        <Button type="button" variant="outline" className="min-w-[100px]" onClick={onBack}>
-          Back
-        </Button>
-        <Button type="submit" className="flex-1" isLoading={isSubmitting}>
-          {cta}
-        </Button>
-      </div>
+      <AuthStepFooter submitLabel={cta} onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

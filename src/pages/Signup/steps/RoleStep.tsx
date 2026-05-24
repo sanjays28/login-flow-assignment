@@ -1,9 +1,10 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AccountTypeOption, Button } from '@/components';
+import { AccountTypeOption } from '@/components';
 import { PersonIcon, BriefcaseIcon } from '@/components/auth/AccountTypeOption/account-type-icons';
 import { ACCOUNT_TYPES, roleSchema, type RoleFormValues } from '../schemas/role.schema';
 import { STEP_COPY } from '../config/steps.config';
+import { AuthStepFooter } from '../components/AuthStepFooter';
 
 const ACCOUNT_TYPE_ICONS = {
   personal: <PersonIcon />,
@@ -52,23 +53,7 @@ export function RoleStep({ onSubmit }: RoleStepProps) {
         </p>
       )}
 
-      <div className="mt-auto flex items-center justify-between gap-2.5 pt-10">
-        <Button
-          type="button"
-          variant="outline"
-          className="min-w-0 flex-1 py-4 sm:w-64 sm:flex-none"
-          disabled
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          className="min-w-0 flex-1 py-4 sm:w-64 sm:flex-none"
-          isLoading={isSubmitting}
-        >
-          {STEP_COPY.role.cta}
-        </Button>
-      </div>
+      <AuthStepFooter submitLabel={STEP_COPY.role.cta} backDisabled isSubmitting={isSubmitting} />
     </form>
   );
 }

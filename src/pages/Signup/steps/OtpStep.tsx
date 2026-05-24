@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Button, OTPInput } from '@/components';
+import { OTPInput } from '@/components';
 import { otpSchema, type OtpFormValues } from '../schemas/otp.schema';
 import { STEP_COPY } from '../config/steps.config';
+import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface OtpStepProps {
   phone: string;
@@ -53,14 +54,12 @@ export function OtpStep({ phone, onSubmit, onBack }: OtpStepProps) {
         {STEP_COPY.otp.resend}
       </button>
 
-      <div className="mt-auto flex gap-3 pt-10">
-        <Button type="button" variant="outline" className="min-w-[100px]" onClick={onBack}>
-          Back
-        </Button>
-        <Button type="submit" className="flex-1" isLoading={isSubmitting} disabled={otp.length < 4}>
-          {STEP_COPY.otp.cta}
-        </Button>
-      </div>
+      <AuthStepFooter
+        submitLabel={STEP_COPY.otp.cta}
+        onBack={onBack}
+        isSubmitting={isSubmitting}
+        submitDisabled={otp.length < 4}
+      />
     </form>
   );
 }

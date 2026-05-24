@@ -25,6 +25,8 @@ export function AuthSplitLayout({
   progressTotal,
   className,
 }: AuthSplitLayoutProps) {
+  const showProgress = progressStep !== undefined && progressTotal !== undefined;
+
   return (
     <div className={cn('auth-page relative flex min-h-svh flex-row bg-background', className)}>
       {/* Left — sits on the gray bg, above the wave pseudo-element */}
@@ -46,13 +48,24 @@ export function AuthSplitLayout({
         )}
       </aside>
 
-      {/* Right — card centered with even margin on all sides within the half-panel */}
+      {/* Right — progress bar sits above the card, outside it */}
       <section className="relative z-10 flex w-1/2 shrink-0 items-center justify-center p-8">
-        <div className="flex h-[895px] w-full max-w-[708px] max-h-[calc(100svh-64px)] flex-col rounded-2xl bg-surface px-16 pt-11 pb-10 shadow-[-16px_4px_35px_0_rgba(0,0,0,0.03)]">
-          {progressStep !== undefined && progressTotal !== undefined && (
-            <AuthProgressBar currentStep={progressStep} totalSteps={progressTotal} />
+        <div className="flex w-full max-w-[708px] flex-col">
+          {showProgress && (
+            <AuthProgressBar
+              currentStep={progressStep}
+              totalSteps={progressTotal}
+              className="mb-3"
+            />
           )}
-          <div className="flex flex-1 flex-col">{children}</div>
+          <div
+            className={cn(
+              'flex h-[895px] w-full flex-col rounded-2xl bg-surface px-16 pt-11 pb-10 shadow-[-16px_4px_35px_0_rgba(0,0,0,0.03)]',
+              showProgress ? 'max-h-[calc(100svh-88px)]' : 'max-h-[calc(100svh-64px)]',
+            )}
+          >
+            <div className="flex flex-1 flex-col">{children}</div>
+          </div>
         </div>
       </section>
     </div>
