@@ -1,68 +1,99 @@
-import { useId, type InputHTMLAttributes, type SelectHTMLAttributes } from 'react';
+import { Children, useId } from 'react';
+import { CountrySelector, usePhoneInput, type CountryIso2 } from 'react-international-phone';
+import 'react-international-phone/style.css';
 import { cn } from '@/utils';
-
-const COUNTRY_CODES = [
-  { value: '+91', label: '+91' },
-  { value: '+1', label: '+1' },
-  { value: '+44', label: '+44' },
-] as const;
 
 interface PhoneInputProps {
   label?: string;
   error?: string;
-  selectProps?: SelectHTMLAttributes<HTMLSelectElement>;
-  inputProps?: InputHTMLAttributes<HTMLInputElement>;
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
 }
 
+const preferredCountries: CountryIso2[] = ['in', 'us', 'gb', 'ae', 'sg'];
+
+const fieldBorder = (error?: string) =>
+  cn(
+    'border bg-surface transition-colors',
+    'focus-within:border-primary focus-within:outline-none',
+    error ? 'border-error' : 'border-[#B8CCE0]',
+  );
+
 export function PhoneInput({
-  label = 'Phone number',
+  label = 'Mobile Number',
   error,
-  selectProps,
-  inputProps,
+  value,
+  onChange,
+  onBlur,
 }: PhoneInputProps) {
   const baseId = useId();
-  const inputId = inputProps?.id ?? `${baseId}-phone`;
+  const inputId = `${baseId}-phone`;
   const errorId = error ? `${baseId}-error` : undefined;
+
+  const { country, setCountry, inputValue, handlePhoneValueChange, inputRef } = usePhoneInput({
+    defaultCountry: 'in',
+    preferredCountries,
+    value,
+    disableDialCodeAndPrefix: true,
+    disableFormatting: false,
+    onChange: ({ phone }) => onChange(phone),
+  });
 
   return (
     <div className="w-full min-w-0">
-      <label htmlFor={inputId} className="mb-2 block text-sm font-medium text-text-primary">
+      <label htmlFor={inputId} className="mb-2 block text-sm font-normal text-[#7A90AD]">
         {label}
+        <span className="text-[#7A90AD]">*</span>
       </label>
-      <div className="flex gap-2 sm:gap-3">
-        <select
-          aria-label="Country code"
-          defaultValue="+91"
-          className={cn(
-            'min-h-12 shrink-0 rounded-lg border bg-surface px-2 text-base text-text-primary sm:px-3',
-            'focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-border-focus/20',
-            error ? 'border-error' : 'border-border',
-          )}
-          {...selectProps}
-        >
-          {COUNTRY_CODES.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+
+      <div className="phone-input-row flex gap-3">
+        <CountrySelector
+          selectedCountry={country.iso2}
+          onSelect={(selected) => setCountry(selected.iso2)}
+          preferredCountries={preferredCountries}
+          flagClassName="phone-input-flag"
+          dropdownArrowClassName="phone-input-arrow"
+          renderButtonWrapper={({ children, rootProps }) => {
+            const items = Children.toArray(children);
+
+            return (
+              <button
+                {...rootProps}
+                type="button"
+                className={cn('phone-input-country-btn', fieldBorder(error))}
+              >
+                <span className="phone-input-country-content">
+                  {items[0]}
+                  <span className="phone-input-dial-code">+{country.dialCode}</span>
+                  {items.slice(1)}
+                </span>
+              </button>
+            );
+          }}
+        />
+
         <input
+          ref={inputRef}
           id={inputId}
+          name="phone"
           type="tel"
-          inputMode="numeric"
+          inputMode="tel"
           autoComplete="tel-national"
+          value={inputValue}
+          onChange={handlePhoneValueChange}
+          onBlur={onBlur}
           placeholder="9876543210"
           aria-invalid={Boolean(error)}
           aria-describedby={errorId}
           className={cn(
-            'min-h-12 min-w-0 flex-1 rounded-lg border bg-surface px-3 py-2 text-base text-text-primary sm:px-4',
-            'placeholder:text-text-secondary',
-            'focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-border-focus/20',
-            error ? 'border-error' : 'border-border',
+            'phone-input-number min-h-12 flex-1 rounded-lg px-4 text-base text-text-primary',
+            'placeholder:text-[#9CA3AF]',
+            fieldBorder(error),
           )}
-          {...inputProps}
         />
       </div>
+
       {error && (
         <p id={errorId} className="mt-1.5 text-sm text-error" role="alert">
           {error}

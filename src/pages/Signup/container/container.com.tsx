@@ -8,12 +8,13 @@ import { PasswordStep } from '../steps/PasswordStep';
 import { SuccessModal } from '../components/SuccessModal';
 import type { RoleFormValues } from '../schemas/role.schema';
 import type { PhoneFormValues } from '../schemas/phone.schema';
+import { formatPhoneDisplay } from '@/utils/phone/formatPhone';
 import type { OtpFormValues } from '../schemas/otp.schema';
 import type { PasswordFormValues } from '../schemas/password.schema';
 
 interface ContainerComProps {
   step: number;
-  signupData: { phone?: string; countryCode?: string };
+  signupData: { phone?: string };
   onRoleSubmit: (data: RoleFormValues) => void;
   onPhoneSubmit: (data: PhoneFormValues) => void;
   onOtpSubmit: (data: OtpFormValues) => void;
@@ -32,10 +33,7 @@ export function ContainerCom({
 }: ContainerComProps) {
   const showProgress = step < SIGNUP_TOTAL_STEPS;
   const progressStep = showProgress ? step + 1 : undefined;
-  const phone =
-    signupData.countryCode && signupData.phone
-      ? `${signupData.countryCode} ${signupData.phone}`
-      : '';
+  const phone = signupData.phone ? formatPhoneDisplay(signupData.phone) : '';
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PhoneInput } from '@/components';
 import { phoneSchema, type PhoneFormValues } from '../schemas/phone.schema';
@@ -12,13 +12,12 @@ interface PhoneStepProps {
 
 export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
     defaultValues: {
-      countryCode: '+91',
       phone: '',
     },
   });
@@ -30,10 +29,17 @@ export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
       </h2>
 
       <div className="mt-8">
-        <PhoneInput
-          error={errors.phone?.message}
-          selectProps={register('countryCode')}
-          inputProps={register('phone')}
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              error={errors.phone?.message}
+            />
+          )}
         />
       </div>
 
