@@ -43,7 +43,7 @@ export function OTPInput({ value, onChange, error }: OTPInputProps) {
 
   return (
     <div className="w-full min-w-0">
-      <div className="flex w-full gap-2 sm:gap-3" role="group" aria-label="One-time password">
+      <div className="flex gap-3" role="group" aria-label="One-time password">
         {digits.map((digit, index) => (
           <input
             key={`${baseId}-${index}`}
@@ -59,9 +59,9 @@ export function OTPInput({ value, onChange, error }: OTPInputProps) {
             aria-invalid={Boolean(error)}
             aria-describedby={errorId}
             className={cn(
-              'aspect-square min-h-12 min-w-0 flex-1 rounded-lg border bg-surface text-center text-lg font-medium text-text-primary sm:h-14 sm:max-w-14 sm:flex-none sm:text-xl',
-              'focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-border-focus/20',
-              error ? 'border-error' : 'border-border',
+              'h-14 w-14 rounded-2xl border bg-surface text-center text-xl font-semibold text-text-primary',
+              'focus:border-primary focus:outline-none',
+              error ? 'border-error' : 'border-[#CBD5E0]',
             )}
             onChange={(event) => updateDigit(index, event.target.value)}
             onKeyDown={(event) => handleKeyDown(index, event)}

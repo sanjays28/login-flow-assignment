@@ -4,20 +4,24 @@ import { SIGNUP_LAYOUT, SIGNUP_TOTAL_STEPS } from '../config/steps.config';
 import { RoleStep } from '../steps/RoleStep';
 import { PhoneStep } from '../steps/PhoneStep';
 import { OtpStep } from '../steps/OtpStep';
+import { NameStep } from '../steps/NameStep';
 import { PasswordStep } from '../steps/PasswordStep';
 import { SuccessModal } from '../components/SuccessModal';
+import { formatFullName } from '../utils/formatSignupSummary';
+import type { SignupData } from '../types/signup.types';
 import type { RoleFormValues } from '../schemas/role.schema';
 import type { PhoneFormValues } from '../schemas/phone.schema';
-import { formatPhoneDisplay } from '@/utils/phone/formatPhone';
 import type { OtpFormValues } from '../schemas/otp.schema';
+import type { NameFormValues } from '../schemas/name.schema';
 import type { PasswordFormValues } from '../schemas/password.schema';
 
 interface ContainerComProps {
   step: number;
-  signupData: { phone?: string };
+  signupData: SignupData;
   onRoleSubmit: (data: RoleFormValues) => void;
   onPhoneSubmit: (data: PhoneFormValues) => void;
   onOtpSubmit: (data: OtpFormValues) => void;
+  onNameSubmit: (data: NameFormValues) => void;
   onPasswordSubmit: (data: PasswordFormValues) => void;
   onBack: () => void;
 }
@@ -28,12 +32,12 @@ export function ContainerCom({
   onRoleSubmit,
   onPhoneSubmit,
   onOtpSubmit,
+  onNameSubmit,
   onPasswordSubmit,
   onBack,
 }: ContainerComProps) {
   const showProgress = step < SIGNUP_TOTAL_STEPS;
   const progressStep = showProgress ? step + 1 : undefined;
-  const phone = signupData.phone ? formatPhoneDisplay(signupData.phone) : '';
 
   return (
     <>
@@ -48,13 +52,21 @@ export function ContainerCom({
       >
         {step === 0 && <RoleStep onSubmit={onRoleSubmit} />}
         {step === 1 && <PhoneStep onSubmit={onPhoneSubmit} onBack={onBack} />}
-        {step === 2 && <OtpStep phone={phone} onSubmit={onOtpSubmit} onBack={onBack} />}
-        {step >= 3 && step < SIGNUP_TOTAL_STEPS && (
-          <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />
-        )}
+        {step === 2 && <OtpStep onSubmit={onOtpSubmit} onBack={onBack} />}
+        {step === 3 && <NameStep onSubmit={onNameSubmit} onBack={onBack} />}
+        {step === 4 && <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />}
       </AuthSplitLayout>
 
-      {step >= SIGNUP_TOTAL_STEPS && <SuccessModal />}
+      {step >= SIGNUP_TOTAL_STEPS && (
+        <SuccessModal
+          summary={{
+            accountType: signupData.accountType,
+            phone: signupData.phone,
+            email: signupData.email,
+            name: formatFullName(signupData.firstName, signupData.lastName),
+          }}
+        />
+      )}
     </>
   );
 }

@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { ContainerCom } from './container.com';
-import type { RoleFormValues } from '../schemas/role.schema';
-import type { PhoneFormValues } from '../schemas/phone.schema';
-import type { OtpFormValues } from '../schemas/otp.schema';
-import type { PasswordFormValues } from '../schemas/password.schema';
-
-type SignupData = Partial<RoleFormValues & PhoneFormValues & OtpFormValues & PasswordFormValues>;
+import type { SignupData } from '../types/signup.types';
 
 export default function SignupContainer() {
   const [step, setStep] = useState(0);
@@ -29,6 +24,10 @@ export default function SignupContainer() {
         next();
       }}
       onOtpSubmit={(data) => {
+        merge(data);
+        next();
+      }}
+      onNameSubmit={(data) => {
         merge(data);
         next();
       }}

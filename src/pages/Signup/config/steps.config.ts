@@ -5,8 +5,8 @@ export const SIGNUP_LAYOUT = {
   illustrationAlt: 'Person filling a signup form',
 } as const;
 
-// 4 form steps (role, phone, otp, password); success shows at step 4
-export const SIGNUP_TOTAL_STEPS = 4;
+// 5 form steps (role, phone, otp, name, password); success shows at step 5
+export const SIGNUP_TOTAL_STEPS = 5;
 
 export const STEP_COPY = {
   role: {
@@ -18,9 +18,19 @@ export const STEP_COPY = {
     cta: 'Continue',
   },
   otp: {
-    heading: 'Enter the 4-digit code we sent to',
-    resend: 'Resend code',
+    title: 'OTP Verification',
+    subtitle: 'An OTP has been sent to your mobile number',
+    resendPrefix: 'Did not receive OTP?',
+    resendLink: 'Resend OTP',
     cta: 'Verify',
+  },
+  name: {
+    heading: 'What is your name?',
+    fields: {
+      firstName: { label: 'First name', placeholder: 'John' },
+      lastName: { label: 'Last name', placeholder: 'Doe' },
+    },
+    cta: 'Continue',
   },
   password: {
     heading: 'Create a secure password for your account',
@@ -30,4 +40,11 @@ export const STEP_COPY = {
     },
     cta: 'Create account',
   },
+} as const;
+
+export const SUCCESS_COPY = {
+  title: "You're all set!",
+  subtitle: "Here's a quick summary of your account details",
+  security: 'Your account is secured with bank-grade security',
+  cta: 'Go to login',
 } as const;

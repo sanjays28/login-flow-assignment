@@ -5,15 +5,16 @@ import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface OtpStepProps {
-  phone: string;
   onSubmit: (data: OtpFormValues) => void;
   onBack: () => void;
 }
 
-export function OtpStep({ phone, onSubmit, onBack }: OtpStepProps) {
+export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { title, subtitle, resendPrefix, resendLink, cta } = STEP_COPY.otp;
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -35,27 +36,33 @@ export function OtpStep({ phone, onSubmit, onBack }: OtpStepProps) {
     if (error) setError('');
   };
 
+  const handleResend = () => {
+    setOtp('');
+    setError('');
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
-      <h2 className="text-lg font-normal leading-snug text-text-primary sm:text-xl">
-        Enter the <span className="font-semibold">4-digit code</span> we sent to
-      </h2>
-      <p className="mt-1 text-base font-semibold text-text-primary">{phone}</p>
+      <h2 className="text-xl font-bold leading-snug text-text-primary sm:text-2xl">{title}</h2>
+      <p className="mt-2 text-sm text-[#9BA3AF]">{subtitle}</p>
 
-      <div className="mt-8">
+      <div className="mt-8 w-fit max-w-full">
         <OTPInput value={otp} onChange={handleChange} error={error} />
+
+        <p className="mt-4 text-right text-sm text-[#9BA3AF]">
+          {resendPrefix}{' '}
+          <button
+            type="button"
+            className="font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:underline"
+            onClick={handleResend}
+          >
+            {resendLink}
+          </button>
+        </p>
       </div>
 
-      <button
-        type="button"
-        className="mt-4 self-start text-sm text-primary hover:underline focus-visible:outline-none focus-visible:underline"
-        onClick={() => onBack()}
-      >
-        {STEP_COPY.otp.resend}
-      </button>
-
       <AuthStepFooter
-        submitLabel={STEP_COPY.otp.cta}
+        submitLabel={cta}
         onBack={onBack}
         isSubmitting={isSubmitting}
         submitDisabled={otp.length < 4}
