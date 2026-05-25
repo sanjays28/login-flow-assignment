@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components';
 import { ROUTES } from '@/config/route.config';
@@ -27,11 +28,35 @@ export function SuccessModal({ summary }: SuccessModalProps) {
   ].filter((row): row is { label: string; value: string } => row !== null);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-3xl bg-surface p-8 shadow-[0_16px_48px_rgba(26,31,54,0.16)]">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-primary">
+    <motion.div
+      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <motion.div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      <motion.div
+        className="relative w-full max-w-md rounded-3xl bg-surface p-8 shadow-[0_16px_48px_rgba(26,31,54,0.16)]"
+        initial={{ opacity: 0, scale: 0.94, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        <motion.div
+          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-primary"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.25, ease: 'easeOut' }}
+        >
           <CheckIcon />
-        </div>
+        </motion.div>
 
         <h2 className="mt-5 text-center text-xl font-bold text-text-primary sm:text-2xl">
           {title}
@@ -39,11 +64,17 @@ export function SuccessModal({ summary }: SuccessModalProps) {
         <p className="mt-2 text-center text-sm text-text-secondary">{subtitle}</p>
 
         <div className="mt-6 space-y-3 rounded-2xl bg-surface-muted px-5 py-4">
-          {rows.map((row) => (
-            <div key={row.label} className="flex items-center justify-between gap-4 text-sm">
+          {rows.map((row, index) => (
+            <motion.div
+              key={row.label}
+              className="flex items-center justify-between gap-4 text-sm"
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 + index * 0.06, duration: 0.2 }}
+            >
               <span className="text-text-secondary">{row.label}</span>
               <span className="font-semibold text-text-primary">{row.value}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -55,8 +86,8 @@ export function SuccessModal({ summary }: SuccessModalProps) {
         <Button size="step" className="mt-6 w-full" onClick={() => navigate(ROUTES.LOGIN)}>
           {cta}
         </Button>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

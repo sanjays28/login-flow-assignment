@@ -6,10 +6,10 @@ import { passwordSchema, type PasswordFormValues } from '../schemas/password.sch
 import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
 
-const { fields, cta } = STEP_COPY.password;
+const { fields, cta, loadingLabel } = STEP_COPY.password;
 
 interface PasswordStepProps {
-  onSubmit: (data: PasswordFormValues) => void;
+  onSubmit: (data: PasswordFormValues) => void | Promise<void>;
   onBack: () => void;
 }
 
@@ -37,13 +37,14 @@ export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
             label={fields.password.label}
             type={showPassword ? 'text' : 'password'}
             placeholder={fields.password.placeholder}
+            hint={fields.password.hint}
             error={errors.password?.message}
             {...register('password')}
           />
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-9 text-text-secondary hover:text-text-primary focus-visible:outline-none"
+            className="absolute right-3 top-9 rounded-md p-1 text-text-secondary transition-colors duration-150 hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-95"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? <EyeOffIcon /> : <EyeIcon />}
@@ -55,13 +56,14 @@ export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
             label={fields.confirm.label}
             type={showConfirm ? 'text' : 'password'}
             placeholder={fields.confirm.placeholder}
+            hint={fields.confirm.hint}
             error={errors.confirmPassword?.message}
             {...register('confirmPassword')}
           />
           <button
             type="button"
             onClick={() => setShowConfirm((prev) => !prev)}
-            className="absolute right-3 top-9 text-text-secondary hover:text-text-primary focus-visible:outline-none"
+            className="absolute right-3 top-9 rounded-md p-1 text-text-secondary transition-colors duration-150 hover:text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus active:scale-95"
             aria-label={showConfirm ? 'Hide password' : 'Show password'}
           >
             {showConfirm ? <EyeOffIcon /> : <EyeIcon />}
@@ -69,7 +71,12 @@ export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
         </div>
       </div>
 
-      <AuthStepFooter submitLabel={cta} onBack={onBack} isSubmitting={isSubmitting} />
+      <AuthStepFooter
+        submitLabel={cta}
+        onBack={onBack}
+        isSubmitting={isSubmitting}
+        loadingLabel={loadingLabel}
+      />
     </form>
   );
 }

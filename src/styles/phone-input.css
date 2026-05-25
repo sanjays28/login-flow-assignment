@@ -19,10 +19,25 @@
     appearance: none;
     border-radius: 0.5rem;
     background: var(--color-surface);
+    transition:
+      border-color 150ms ease-out,
+      background-color 150ms ease-out,
+      box-shadow 150ms ease-out,
+      transform 150ms ease-out;
   }
 
   .phone-input-country-btn:hover {
-    background: var(--color-surface);
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+    background: var(--color-surface-muted);
+  }
+
+  .phone-input-country-btn:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  .phone-input-country-btn:active {
+    transform: scale(0.98);
   }
 
   .phone-input-country-content {
@@ -50,15 +65,28 @@
     height: 0.625rem;
     margin-left: 0.125rem;
     opacity: 0.55;
+    transition: opacity 150ms ease-out;
+  }
+
+  .phone-input-country-btn:hover .phone-input-arrow {
+    opacity: 0.85;
   }
 
   .phone-input-number {
     min-width: 0;
     background: var(--color-surface);
+    transition:
+      border-color 150ms ease-out,
+      box-shadow 150ms ease-out;
+  }
+
+  .phone-input-number:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
   }
 
   .phone-input-number:focus {
     outline: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-border-focus) 25%, transparent);
   }
 
   .phone-input-row .react-international-phone-country-selector {

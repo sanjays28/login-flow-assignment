@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { simulateDelay } from '@/utils';
 import { ContainerCom } from './container.com';
 import type { SignupData } from '../types/signup.types';
 
@@ -15,24 +16,29 @@ export default function SignupContainer() {
     <ContainerCom
       step={step}
       signupData={signupData}
-      onRoleSubmit={(data) => {
+      onRoleSubmit={async (data) => {
         merge(data);
+        await simulateDelay(400);
         next();
       }}
-      onPhoneSubmit={(data) => {
+      onPhoneSubmit={async (data) => {
         merge(data);
+        await simulateDelay(900);
         next();
       }}
-      onOtpSubmit={(data) => {
+      onOtpSubmit={async (data) => {
         merge(data);
+        await simulateDelay(900);
         next();
       }}
-      onNameSubmit={(data) => {
+      onNameSubmit={async (data) => {
         merge(data);
+        await simulateDelay(500);
         next();
       }}
-      onPasswordSubmit={(data) => {
+      onPasswordSubmit={async (data) => {
         merge(data);
+        await simulateDelay(1200);
         next();
       }}
       onBack={back}

@@ -8,7 +8,7 @@ import { AuthStepFooter } from '../components/AuthStepFooter';
 const { heading, fields, cta } = STEP_COPY.name;
 
 interface NameStepProps {
-  onSubmit: (data: NameFormValues) => void;
+  onSubmit: (data: NameFormValues) => void | Promise<void>;
   onBack: () => void;
 }
 
@@ -33,6 +33,7 @@ export function NameStep({ onSubmit, onBack }: NameStepProps) {
         <Input
           label={fields.firstName.label}
           placeholder={fields.firstName.placeholder}
+          hint={fields.firstName.hint}
           autoComplete="given-name"
           error={errors.firstName?.message}
           {...register('firstName')}
@@ -40,6 +41,7 @@ export function NameStep({ onSubmit, onBack }: NameStepProps) {
         <Input
           label={fields.lastName.label}
           placeholder={fields.lastName.placeholder}
+          hint={fields.lastName.hint}
           autoComplete="family-name"
           error={errors.lastName?.message}
           {...register('lastName')}

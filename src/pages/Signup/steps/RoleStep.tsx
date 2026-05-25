@@ -12,7 +12,7 @@ const ACCOUNT_TYPE_ICONS = {
 } as const;
 
 interface RoleStepProps {
-  onSubmit: (data: RoleFormValues) => void;
+  onSubmit: (data: RoleFormValues) => void | Promise<void>;
 }
 
 export function RoleStep({ onSubmit }: RoleStepProps) {

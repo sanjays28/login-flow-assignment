@@ -1,5 +1,6 @@
+import { AnimatePresence } from 'framer-motion';
 import { ASSETS } from '@/assets';
-import { AuthSplitLayout } from '@/components';
+import { AuthSplitLayout, AuthStepTransition } from '@/components';
 import { SIGNUP_LAYOUT, SIGNUP_TOTAL_STEPS } from '../config/steps.config';
 import { RoleStep } from '../steps/RoleStep';
 import { PhoneStep } from '../steps/PhoneStep';
@@ -15,14 +16,16 @@ import type { OtpFormValues } from '../schemas/otp.schema';
 import type { NameFormValues } from '../schemas/name.schema';
 import type { PasswordFormValues } from '../schemas/password.schema';
 
+type SubmitHandler<T> = (data: T) => void | Promise<void>;
+
 interface ContainerComProps {
   step: number;
   signupData: SignupData;
-  onRoleSubmit: (data: RoleFormValues) => void;
-  onPhoneSubmit: (data: PhoneFormValues) => void;
-  onOtpSubmit: (data: OtpFormValues) => void;
-  onNameSubmit: (data: NameFormValues) => void;
-  onPasswordSubmit: (data: PasswordFormValues) => void;
+  onRoleSubmit: SubmitHandler<RoleFormValues>;
+  onPhoneSubmit: SubmitHandler<PhoneFormValues>;
+  onOtpSubmit: SubmitHandler<OtpFormValues>;
+  onNameSubmit: SubmitHandler<NameFormValues>;
+  onPasswordSubmit: SubmitHandler<PasswordFormValues>;
   onBack: () => void;
 }
 
@@ -50,23 +53,47 @@ export function ContainerCom({
         progressStep={progressStep}
         progressTotal={showProgress ? SIGNUP_TOTAL_STEPS : undefined}
       >
-        {step === 0 && <RoleStep onSubmit={onRoleSubmit} />}
-        {step === 1 && <PhoneStep onSubmit={onPhoneSubmit} onBack={onBack} />}
-        {step === 2 && <OtpStep onSubmit={onOtpSubmit} onBack={onBack} />}
-        {step === 3 && <NameStep onSubmit={onNameSubmit} onBack={onBack} />}
-        {step === 4 && <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />}
+        <AnimatePresence mode="wait">
+          {step === 0 && (
+            <AuthStepTransition stepKey={0}>
+              <RoleStep onSubmit={onRoleSubmit} />
+            </AuthStepTransition>
+          )}
+          {step === 1 && (
+            <AuthStepTransition stepKey={1}>
+              <PhoneStep onSubmit={onPhoneSubmit} onBack={onBack} />
+            </AuthStepTransition>
+          )}
+          {step === 2 && (
+            <AuthStepTransition stepKey={2}>
+              <OtpStep onSubmit={onOtpSubmit} onBack={onBack} />
+            </AuthStepTransition>
+          )}
+          {step === 3 && (
+            <AuthStepTransition stepKey={3}>
+              <NameStep onSubmit={onNameSubmit} onBack={onBack} />
+            </AuthStepTransition>
+          )}
+          {step === 4 && (
+            <AuthStepTransition stepKey={4}>
+              <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />
+            </AuthStepTransition>
+          )}
+        </AnimatePresence>
       </AuthSplitLayout>
 
-      {step >= SIGNUP_TOTAL_STEPS && (
-        <SuccessModal
-          summary={{
-            accountType: signupData.accountType,
-            phone: signupData.phone,
-            email: signupData.email,
-            name: formatFullName(signupData.firstName, signupData.lastName),
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {step >= SIGNUP_TOTAL_STEPS && (
+          <SuccessModal
+            summary={{
+              accountType: signupData.accountType,
+              phone: signupData.phone,
+              email: signupData.email,
+              name: formatFullName(signupData.firstName, signupData.lastName),
+            }}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

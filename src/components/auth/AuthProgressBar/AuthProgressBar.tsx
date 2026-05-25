@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { cn } from '@/utils';
 
 interface AuthProgressBarProps {
@@ -12,7 +13,7 @@ export function AuthProgressBar({ currentStep, totalSteps, className }: AuthProg
   return (
     <div
       className={cn(
-        'mx-auto flex h-1.5 w-[80%] max-w-[560px] rounded-full border border-primary/35 bg-transparent',
+        'mx-auto flex h-1.5 w-[80%] max-w-[560px] overflow-hidden rounded-full border border-primary/35 bg-transparent',
         className,
       )}
       role="progressbar"
@@ -21,9 +22,11 @@ export function AuthProgressBar({ currentStep, totalSteps, className }: AuthProg
       aria-valuemax={totalSteps}
       aria-label={`Step ${currentStep} of ${totalSteps}`}
     >
-      <div
-        className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
-        style={{ width: `${progress}%` }}
+      <motion.div
+        className="h-full rounded-full bg-primary"
+        initial={false}
+        animate={{ width: `${progress}%` }}
+        transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
       />
     </div>
   );

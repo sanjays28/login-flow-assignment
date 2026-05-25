@@ -7,13 +7,16 @@ interface OTPInputProps {
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  hint?: string;
 }
 
-export function OTPInput({ value, onChange, error }: OTPInputProps) {
+export function OTPInput({ value, onChange, error, hint }: OTPInputProps) {
   const baseId = useId();
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const digits = Array.from({ length: OTP_LENGTH }, (_, index) => value[index] ?? '');
   const errorId = error ? `${baseId}-error` : undefined;
+  const hintId = hint && !error ? `${baseId}-hint` : undefined;
+  const isEmpty = value.length === 0;
 
   const updateDigit = (index: number, digit: string) => {
     const sanitized = digit.replace(/\D/g, '').slice(-1);
@@ -57,11 +60,15 @@ export function OTPInput({ value, onChange, error }: OTPInputProps) {
             value={digit}
             aria-label={`Digit ${index + 1} of ${OTP_LENGTH}`}
             aria-invalid={Boolean(error)}
-            aria-describedby={errorId}
+            aria-describedby={error ? errorId : hintId}
             className={cn(
               'h-14 w-14 rounded-2xl border bg-surface text-center text-xl font-semibold text-text-primary',
-              'focus:border-primary focus:outline-none',
-              error ? 'border-error' : 'border-[#CBD5E0]',
+              'transition-all duration-150 ease-out',
+              'hover:border-primary/50',
+              'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20',
+              'active:scale-[0.97]',
+              error ? 'border-error hover:border-error' : 'border-[#CBD5E0]',
+              isEmpty && !error && 'bg-surface-muted/40',
             )}
             onChange={(event) => updateDigit(index, event.target.value)}
             onKeyDown={(event) => handleKeyDown(index, event)}
@@ -69,11 +76,15 @@ export function OTPInput({ value, onChange, error }: OTPInputProps) {
           />
         ))}
       </div>
-      {error && (
+      {error ? (
         <p id={errorId} className="mt-2 text-sm text-error" role="alert">
           {error}
         </p>
-      )}
+      ) : hint ? (
+        <p id={hintId} className="mt-2 text-sm text-text-secondary">
+          {hint}
+        </p>
+      ) : null}
     </div>
   );
 }

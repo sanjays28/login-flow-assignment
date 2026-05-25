@@ -6,6 +6,7 @@ import { cn } from '@/utils';
 interface PhoneInputProps {
   label?: string;
   error?: string;
+  hint?: string;
   value: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
@@ -23,6 +24,7 @@ const fieldBorder = (error?: string) =>
 export function PhoneInput({
   label = 'Mobile Number',
   error,
+  hint,
   value,
   onChange,
   onBlur,
@@ -30,6 +32,7 @@ export function PhoneInput({
   const baseId = useId();
   const inputId = `${baseId}-phone`;
   const errorId = error ? `${baseId}-error` : undefined;
+  const hintId = hint && !error ? `${baseId}-hint` : undefined;
 
   const { country, setCountry, inputValue, handlePhoneValueChange, inputRef } = usePhoneInput({
     defaultCountry: 'in',
@@ -85,7 +88,7 @@ export function PhoneInput({
           onBlur={onBlur}
           placeholder="9876543210"
           aria-invalid={Boolean(error)}
-          aria-describedby={errorId}
+          aria-describedby={error ? errorId : hintId}
           className={cn(
             'phone-input-number min-h-12 flex-1 rounded-lg px-4 text-base text-text-primary',
             'placeholder:text-[#9CA3AF]',
@@ -94,11 +97,15 @@ export function PhoneInput({
         />
       </div>
 
-      {error && (
+      {error ? (
         <p id={errorId} className="mt-1.5 text-sm text-error" role="alert">
           {error}
         </p>
-      )}
+      ) : hint ? (
+        <p id={hintId} className="mt-1.5 text-sm text-text-secondary">
+          {hint}
+        </p>
+      ) : null}
     </div>
   );
 }

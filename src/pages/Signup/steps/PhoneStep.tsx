@@ -1,4 +1,4 @@
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PhoneInput } from '@/components';
 import { phoneSchema, type PhoneFormValues } from '../schemas/phone.schema';
@@ -6,7 +6,7 @@ import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface PhoneStepProps {
-  onSubmit: (data: PhoneFormValues) => void;
+  onSubmit: (data: PhoneFormValues) => void | Promise<void>;
   onBack: () => void;
 }
 
@@ -21,6 +21,9 @@ export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
       phone: '',
     },
   });
+
+  const phone = useWatch({ control, name: 'phone' });
+  const isEmpty = !phone || phone.length <= 3;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
@@ -38,6 +41,7 @@ export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
               onChange={field.onChange}
               onBlur={field.onBlur}
               error={errors.phone?.message}
+              hint={!errors.phone && isEmpty ? STEP_COPY.phone.hint : undefined}
             />
           )}
         />
@@ -47,6 +51,7 @@ export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
         submitLabel={STEP_COPY.phone.cta}
         onBack={onBack}
         isSubmitting={isSubmitting}
+        loadingLabel={STEP_COPY.phone.loadingLabel}
       />
     </form>
   );

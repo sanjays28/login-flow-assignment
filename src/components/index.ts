@@ -3,6 +3,8 @@ export * from './ui/Input/Input';
 export * from './ui/PhoneInput/PhoneInput';
 export * from './ui/OTPInput/OTPInput';
 export * from './ui/Loader/Loader';
+export * from './ui/FieldHint/FieldHint';
+export * from './auth/AuthStepTransition/AuthStepTransition';
 export * from './auth/AuthSplitLayout/AuthSplitLayout';
 export * from './auth/AuthFormCard/AuthFormCard';
 export * from './auth/AuthPageHeader/AuthPageHeader';
