@@ -16,7 +16,7 @@ export function AccountTypeOption({ label, selected, onSelect, icon }: AccountTy
       aria-checked={selected}
       onClick={onSelect}
       className={cn(
-        'flex h-20 w-full items-center gap-6 rounded-2xl border px-8 text-left shadow-[0_4px_8px_0_rgba(188,203,219,0.30)]',
+        'flex h-20 w-full items-center gap-4 rounded-2xl border px-5 text-left shadow-[0_4px_8px_0_rgba(188,203,219,0.30)] sm:gap-6 sm:px-8',
         'transition-all duration-150 ease-out',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus',
         'active:scale-[0.99]',

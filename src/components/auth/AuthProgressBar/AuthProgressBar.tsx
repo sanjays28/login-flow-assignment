@@ -13,7 +13,7 @@ export function AuthProgressBar({ currentStep, totalSteps, className }: AuthProg
   return (
     <div
       className={cn(
-        'mx-auto flex h-1.5 w-[80%] max-w-[560px] overflow-hidden rounded-full border border-primary/35 bg-transparent',
+        'flex h-1.5 w-full overflow-hidden rounded-full border border-primary/35 bg-transparent lg:mx-auto lg:w-[80%] lg:max-w-[560px]',
         className,
       )}
       role="progressbar"

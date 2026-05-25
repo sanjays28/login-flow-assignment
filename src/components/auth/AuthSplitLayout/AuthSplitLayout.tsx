@@ -28,9 +28,14 @@ export function AuthSplitLayout({
   const showProgress = progressStep !== undefined && progressTotal !== undefined;
 
   return (
-    <div className={cn('auth-page relative flex min-h-svh flex-row bg-background', className)}>
-      {/* Left — sits on the gray bg, above the wave pseudo-element */}
-      <aside className="relative z-10 flex flex-1 flex-col px-10 py-12 lg:px-16">
+    <div
+      className={cn(
+        'auth-page relative flex min-h-svh flex-col lg:flex-row bg-background',
+        className,
+      )}
+    >
+      {/* Left — illustration panel, desktop only */}
+      <aside className="relative z-10 hidden lg:flex lg:flex-1 lg:flex-col px-10 py-12 lg:px-16">
         <p className="text-sm font-medium text-text-secondary">{eyebrow}</p>
         <h1 className="mt-3 text-3xl font-bold leading-tight text-text-primary xl:text-4xl">
           {title}
@@ -48,9 +53,9 @@ export function AuthSplitLayout({
         )}
       </aside>
 
-      {/* Right — progress bar sits above the card, outside it */}
-      <section className="relative z-10 flex w-1/2 shrink-0 items-center justify-center p-8">
-        <div className="flex w-full max-w-[708px] flex-col">
+      {/* Right — full width on mobile, half on desktop */}
+      <section className="relative z-10 flex flex-1 flex-col p-4 pt-8 sm:p-6 sm:pt-10 lg:w-1/2 lg:flex-none lg:shrink-0 lg:items-center lg:justify-center lg:p-8">
+        <div className="flex w-full flex-1 flex-col lg:max-w-[708px] lg:flex-none">
           {showProgress && (
             <AuthProgressBar
               currentStep={progressStep}
@@ -60,8 +65,10 @@ export function AuthSplitLayout({
           )}
           <div
             className={cn(
-              'flex h-[895px] w-full flex-col rounded-2xl bg-surface px-16 pt-11 pb-10 shadow-[-16px_4px_35px_0_rgba(0,0,0,0.03)]',
-              showProgress ? 'max-h-[calc(100svh-88px)]' : 'max-h-[calc(100svh-64px)]',
+              'flex flex-1 flex-col w-full rounded-2xl bg-surface shadow-[-16px_4px_35px_0_rgba(0,0,0,0.03)]',
+              'px-5 pt-8 pb-6 sm:px-10 sm:pt-10 sm:pb-8 lg:px-16 lg:pt-11 lg:pb-10',
+              'lg:h-[895px] lg:flex-none',
+              showProgress ? 'lg:max-h-[calc(100svh-88px)]' : 'lg:max-h-[calc(100svh-64px)]',
             )}
           >
             <div className="flex flex-1 flex-col">{children}</div>

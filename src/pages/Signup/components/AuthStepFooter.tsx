@@ -22,7 +22,7 @@ export function AuthStepFooter({
   const showEmptyHint = Boolean(emptyHint && submitDisabled && !isSubmitting);
 
   return (
-    <div className="mt-auto pt-10">
+    <div className="mt-auto pt-6 sm:pt-10">
       {showEmptyHint && (
         <p className="mb-4 text-center text-sm text-text-secondary transition-opacity duration-200">
           {emptyHint}

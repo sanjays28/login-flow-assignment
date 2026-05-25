@@ -43,7 +43,7 @@ export function SuccessModal({ summary }: SuccessModalProps) {
       />
 
       <motion.div
-        className="relative w-full max-w-md rounded-3xl bg-surface p-8 shadow-[0_16px_48px_rgba(26,31,54,0.16)]"
+        className="relative w-full max-w-md rounded-3xl bg-surface p-6 shadow-[0_16px_48px_rgba(26,31,54,0.16)] sm:p-8"
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 8 }}

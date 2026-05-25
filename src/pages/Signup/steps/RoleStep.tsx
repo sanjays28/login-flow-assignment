@@ -40,7 +40,7 @@ export function RoleStep({
         To join us tell us <span className="font-medium">what type of account</span> you are opening
       </h2>
 
-      <fieldset className="mt-12 space-y-3">
+      <fieldset className="mt-8 space-y-3 sm:mt-12">
         <legend className="sr-only">Account type</legend>
         {ACCOUNT_TYPES.map((type) => (
           <AccountTypeOption

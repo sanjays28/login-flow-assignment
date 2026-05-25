@@ -33,7 +33,7 @@ export function Button({
         'disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100',
         size === 'default' && 'min-h-11 rounded-full px-6 text-sm sm:min-h-12 sm:text-base',
         size === 'step' &&
-          'h-auto min-h-0 w-64 max-w-full shrink-0 rounded-[38px] px-8 py-4 text-sm',
+          'h-auto min-h-0 flex-1 rounded-[38px] px-4 py-3.5 text-sm sm:flex-none sm:w-64 sm:px-8 sm:py-4',
         fullWidth && 'w-full',
         variant === 'primary' &&
           'bg-primary text-text-inverse hover:bg-primary-hover active:bg-primary-active',
