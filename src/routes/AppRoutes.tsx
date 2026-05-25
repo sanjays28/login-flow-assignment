@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Button } from '@/components';
 import { ROUTES } from '@/config';
-import LoginContainer from '@/pages/Login/container';
 import SignupContainer from '@/pages/Signup/container';
 import { authService } from '@/services';
 
@@ -16,7 +15,7 @@ function HomePage() {
 
   const handleLogout = async () => {
     await authService.logout();
-    navigate(ROUTES.LOGIN);
+    navigate(ROUTES.SIGNUP);
   };
 
   if (loggedIn === null) {
@@ -24,7 +23,7 @@ function HomePage() {
   }
 
   if (!loggedIn) {
-    return <Navigate to={ROUTES.LOGIN} replace />;
+    return <Navigate to={ROUTES.SIGNUP} replace />;
   }
 
   return (
@@ -32,8 +31,8 @@ function HomePage() {
       <h1 className="text-3xl font-semibold">You are logged in</h1>
       <p className="text-zinc-400">Home screen — work here</p>
       <Button onClick={handleLogout}>Log out</Button>
-      <Link to={ROUTES.LOGIN} className="text-sm text-violet-400 hover:underline">
-        Back to login
+      <Link to={ROUTES.SIGNUP} className="text-sm text-violet-400 hover:underline">
+        Back to signup
       </Link>
     </div>
   );
@@ -43,9 +42,8 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<HomePage />} />
-      <Route path={ROUTES.LOGIN} element={<LoginContainer />} />
       <Route path={ROUTES.SIGNUP} element={<SignupContainer />} />
-      <Route path="*" element={<Navigate to={ROUTES.LOGIN} replace />} />
+      <Route path="*" element={<Navigate to={ROUTES.SIGNUP} replace />} />
     </Routes>
   );
 }
