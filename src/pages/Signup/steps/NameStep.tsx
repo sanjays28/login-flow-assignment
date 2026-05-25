@@ -8,16 +8,22 @@ import { AuthStepFooter } from '../components/AuthStepFooter';
 const { heading, fields, cta } = STEP_COPY.name;
 
 interface NameStepProps {
-  onSubmit: (data: NameFormValues) => void | Promise<void>;
+  onSubmit: (data: NameFormValues) => void;
   onBack: () => void;
   defaultValues?: NameFormValues;
+  isSubmitting?: boolean;
 }
 
-export function NameStep({ onSubmit, onBack, defaultValues }: NameStepProps) {
+export function NameStep({
+  onSubmit,
+  onBack,
+  defaultValues,
+  isSubmitting: isSubmittingFlow,
+}: NameStepProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isSubmittingForm },
   } = useForm<NameFormValues>({
     resolver: zodResolver(nameSchema),
     defaultValues: defaultValues ?? { firstName: '', lastName: '' },
@@ -46,7 +52,11 @@ export function NameStep({ onSubmit, onBack, defaultValues }: NameStepProps) {
         />
       </div>
 
-      <AuthStepFooter submitLabel={cta} onBack={onBack} isSubmitting={isSubmitting} />
+      <AuthStepFooter
+        submitLabel={cta}
+        onBack={onBack}
+        isSubmitting={isSubmittingFlow ?? isSubmittingForm}
+      />
     </form>
   );
 }

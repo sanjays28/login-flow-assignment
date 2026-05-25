@@ -23,6 +23,7 @@ export const STEP_COPY = {
     title: 'OTP Verification',
     subtitle: 'An OTP has been sent to your mobile number',
     inputHint: 'Enter the 4-digit code sent to your phone.',
+    emptyHint: 'Enter all 4 digits to continue.',
     resendPrefix: 'Did not receive OTP?',
     resendLink: 'Resend OTP',
     resendSent: 'A new code has been sent.',

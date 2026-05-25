@@ -16,22 +16,26 @@ import type { OtpFormValues } from '../schemas/otp.schema';
 import type { NameFormValues } from '../schemas/name.schema';
 import type { PasswordFormValues } from '../schemas/password.schema';
 
-type SubmitHandler<T> = (data: T) => void | Promise<void>;
-
 interface ContainerComProps {
   step: number;
   signupData: SignupData;
-  onRoleSubmit: SubmitHandler<RoleFormValues>;
-  onPhoneSubmit: SubmitHandler<PhoneFormValues>;
-  onOtpSubmit: SubmitHandler<OtpFormValues>;
-  onNameSubmit: SubmitHandler<NameFormValues>;
-  onPasswordSubmit: SubmitHandler<PasswordFormValues>;
+  flowError?: string;
+  isSubmitting?: boolean;
+  showSuccess: boolean;
+  onRoleSubmit: (data: RoleFormValues) => void;
+  onPhoneSubmit: (data: PhoneFormValues) => void;
+  onOtpSubmit: (data: OtpFormValues) => void;
+  onNameSubmit: (data: NameFormValues) => void;
+  onPasswordSubmit: (data: PasswordFormValues) => void;
   onBack: () => void;
 }
 
 export function ContainerCom({
   step,
   signupData,
+  flowError,
+  isSubmitting = false,
+  showSuccess,
   onRoleSubmit,
   onPhoneSubmit,
   onOtpSubmit,
@@ -53,12 +57,19 @@ export function ContainerCom({
         progressStep={progressStep}
         progressTotal={showProgress ? SIGNUP_TOTAL_STEPS : undefined}
       >
+        {flowError && (
+          <p className="mb-4 rounded-lg bg-error/10 px-4 py-3 text-sm text-error" role="alert">
+            {flowError}
+          </p>
+        )}
+
         <AnimatePresence mode="wait">
           {step === 0 && (
             <AuthStepTransition stepKey={0}>
               <RoleStep
                 onSubmit={onRoleSubmit}
                 defaultValues={{ accountType: signupData.accountType ?? 'personal' }}
+                isSubmitting={isSubmitting}
               />
             </AuthStepTransition>
           )}
@@ -68,12 +79,18 @@ export function ContainerCom({
                 onSubmit={onPhoneSubmit}
                 onBack={onBack}
                 defaultValues={{ phone: signupData.phone ?? '' }}
+                isSubmitting={isSubmitting}
               />
             </AuthStepTransition>
           )}
           {step === 2 && (
             <AuthStepTransition stepKey={2}>
-              <OtpStep onSubmit={onOtpSubmit} onBack={onBack} phone={signupData.phone} />
+              <OtpStep
+                onSubmit={onOtpSubmit}
+                onBack={onBack}
+                phone={signupData.phone}
+                isSubmitting={isSubmitting}
+              />
             </AuthStepTransition>
           )}
           {step === 3 && (
@@ -85,19 +102,24 @@ export function ContainerCom({
                   firstName: signupData.firstName ?? '',
                   lastName: signupData.lastName ?? '',
                 }}
+                isSubmitting={isSubmitting}
               />
             </AuthStepTransition>
           )}
           {step === 4 && (
             <AuthStepTransition stepKey={4}>
-              <PasswordStep onSubmit={onPasswordSubmit} onBack={onBack} />
+              <PasswordStep
+                onSubmit={onPasswordSubmit}
+                onBack={onBack}
+                isSubmitting={isSubmitting}
+              />
             </AuthStepTransition>
           )}
         </AnimatePresence>
       </AuthSplitLayout>
 
       <AnimatePresence>
-        {step >= SIGNUP_TOTAL_STEPS && (
+        {showSuccess && (
           <SuccessModal
             summary={{
               accountType: signupData.accountType,

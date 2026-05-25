@@ -7,15 +7,15 @@ import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface OtpStepProps {
-  onSubmit: (data: OtpFormValues) => void | Promise<void>;
+  onSubmit: (data: OtpFormValues) => void;
   onBack: () => void;
   phone?: string;
+  isSubmitting?: boolean;
 }
 
-export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
+export function OtpStep({ onSubmit, onBack, phone, isSubmitting: isSubmittingFlow }: OtpStepProps) {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
   const [resendMessage, setResendMessage] = useState('');
@@ -24,6 +24,7 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
     title,
     subtitle,
     inputHint,
+    emptyHint,
     resendPrefix,
     resendLink,
     resendSent,
@@ -44,7 +45,7 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
     return () => window.clearInterval(timer);
   }, [resendCooldown]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const result = otpSchema.safeParse({ otp });
 
@@ -54,12 +55,7 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
     }
 
     setError('');
-    setIsSubmitting(true);
-    try {
-      await onSubmit(result.data);
-    } finally {
-      setIsSubmitting(false);
-    }
+    onSubmit(result.data);
   };
 
   const handleChange = (value: string) => {
@@ -69,7 +65,7 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
   };
 
   const handleResend = async () => {
-    if (isResending || resendCooldown > 0) return;
+    if (isResending || resendCooldown > 0 || isSubmittingFlow) return;
 
     setIsResending(true);
     setError('');
@@ -83,7 +79,7 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
     setIsResending(false);
   };
 
-  const canResend = !isResending && resendCooldown <= 0;
+  const canResend = !isResending && resendCooldown <= 0 && !isSubmittingFlow;
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
@@ -133,9 +129,10 @@ export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
       <AuthStepFooter
         submitLabel={cta}
         onBack={onBack}
-        isSubmitting={isSubmitting}
+        isSubmitting={isSubmittingFlow}
         loadingLabel={loadingLabel}
         submitDisabled={otp.length < 4}
+        emptyHint={emptyHint}
       />
     </form>
   );

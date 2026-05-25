@@ -1,4 +1,5 @@
 import { StateMachineProcessor } from '@/modules/state-machine-module';
+import type { SignupData } from '@/pages/Signup/types/signup.types';
 import { getAgent, type TAgent } from './agent';
 import { AUTH_FLOW_CONFIG } from './machines/auth-flow';
 import { STARTUP_VALIDATOR_CONFIG } from './machines/startup-validator';
@@ -57,5 +58,19 @@ export class AuthService {
   }
 }
 
+export class SignupFlowService {
+  async completeSignup(signupData: SignupData): Promise<SignupData> {
+    if (signupData.password) {
+      await authService.runAuthFlow('signup', {
+        email: signupData.phone ?? signupData.email ?? 'user@example.com',
+        password: signupData.password,
+      });
+    }
+
+    return signupData;
+  }
+}
+
 export const startupService = new StartupService();
 export const authService = new AuthService();
+export const signupFlowService = new SignupFlowService();

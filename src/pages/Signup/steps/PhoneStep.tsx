@@ -6,16 +6,22 @@ import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
 
 interface PhoneStepProps {
-  onSubmit: (data: PhoneFormValues) => void | Promise<void>;
+  onSubmit: (data: PhoneFormValues) => void;
   onBack: () => void;
   defaultValues?: PhoneFormValues;
+  isSubmitting?: boolean;
 }
 
-export function PhoneStep({ onSubmit, onBack, defaultValues }: PhoneStepProps) {
+export function PhoneStep({
+  onSubmit,
+  onBack,
+  defaultValues,
+  isSubmitting: isSubmittingFlow,
+}: PhoneStepProps) {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isSubmittingForm },
   } = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
     defaultValues: defaultValues ?? { phone: '' },
@@ -49,7 +55,7 @@ export function PhoneStep({ onSubmit, onBack, defaultValues }: PhoneStepProps) {
       <AuthStepFooter
         submitLabel={STEP_COPY.phone.cta}
         onBack={onBack}
-        isSubmitting={isSubmitting}
+        isSubmitting={isSubmittingFlow ?? isSubmittingForm}
         loadingLabel={STEP_COPY.phone.loadingLabel}
       />
     </form>

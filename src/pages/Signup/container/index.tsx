@@ -1,47 +1,37 @@
-import { useState } from 'react';
-import { simulateDelay } from '@/utils';
+import {
+  getSignupDisplayStep,
+  isSignupStepSubmitting,
+  isSignupSuccess,
+} from '@/services/machines/signup-flow';
 import { ContainerCom } from './container.com';
+import { useSignupFlow } from '../hooks/useSignupFlow';
 import type { SignupData } from '../types/signup.types';
 
 export default function SignupContainer() {
-  const [step, setStep] = useState(0);
-  const [signupData, setSignupData] = useState<SignupData>({});
+  const { state, send } = useSignupFlow();
 
-  const merge = (data: Partial<SignupData>) => setSignupData((prev) => ({ ...prev, ...data }));
+  if (!state) {
+    return null;
+  }
 
-  const next = () => setStep((s) => s + 1);
-  const back = () => setStep((s) => Math.max(s - 1, 0));
+  const stateValue = String(state.value);
+  const step = getSignupDisplayStep(stateValue);
+  const isSubmitting = isSignupStepSubmitting(stateValue);
+  const signupData = state.context.signupData as SignupData;
 
   return (
     <ContainerCom
       step={step}
       signupData={signupData}
-      onRoleSubmit={async (data) => {
-        merge(data);
-        await simulateDelay(400);
-        next();
-      }}
-      onPhoneSubmit={async (data) => {
-        merge(data);
-        await simulateDelay(900);
-        next();
-      }}
-      onOtpSubmit={async (data) => {
-        merge(data);
-        await simulateDelay(900);
-        next();
-      }}
-      onNameSubmit={async (data) => {
-        merge(data);
-        await simulateDelay(500);
-        next();
-      }}
-      onPasswordSubmit={async (data) => {
-        merge(data);
-        await simulateDelay(1200);
-        next();
-      }}
-      onBack={back}
+      flowError={state.context.error}
+      isSubmitting={isSubmitting}
+      onRoleSubmit={(data) => send({ type: 'SUBMIT', data })}
+      onPhoneSubmit={(data) => send({ type: 'SUBMIT', data })}
+      onOtpSubmit={(data) => send({ type: 'SUBMIT', data })}
+      onNameSubmit={(data) => send({ type: 'SUBMIT', data })}
+      onPasswordSubmit={(data) => send({ type: 'SUBMIT', data })}
+      onBack={() => send({ type: 'BACK' })}
+      showSuccess={isSignupSuccess(stateValue)}
     />
   );
 }

@@ -12,16 +12,21 @@ const ACCOUNT_TYPE_ICONS = {
 } as const;
 
 interface RoleStepProps {
-  onSubmit: (data: RoleFormValues) => void | Promise<void>;
+  onSubmit: (data: RoleFormValues) => void;
   defaultValues?: RoleFormValues;
+  isSubmitting?: boolean;
 }
 
-export function RoleStep({ onSubmit, defaultValues }: RoleStepProps) {
+export function RoleStep({
+  onSubmit,
+  defaultValues,
+  isSubmitting: isSubmittingFlow,
+}: RoleStepProps) {
   const {
     handleSubmit,
     control,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isSubmittingForm },
   } = useForm<RoleFormValues>({
     resolver: zodResolver(roleSchema),
     defaultValues: defaultValues ?? { accountType: 'personal' },
@@ -54,7 +59,11 @@ export function RoleStep({ onSubmit, defaultValues }: RoleStepProps) {
         </p>
       )}
 
-      <AuthStepFooter submitLabel={STEP_COPY.role.cta} backDisabled isSubmitting={isSubmitting} />
+      <AuthStepFooter
+        submitLabel={STEP_COPY.role.cta}
+        backDisabled
+        isSubmitting={isSubmittingFlow ?? isSubmittingForm}
+      />
     </form>
   );
 }

@@ -9,18 +9,23 @@ import { AuthStepFooter } from '../components/AuthStepFooter';
 const { fields, cta, loadingLabel } = STEP_COPY.password;
 
 interface PasswordStepProps {
-  onSubmit: (data: PasswordFormValues) => void | Promise<void>;
+  onSubmit: (data: PasswordFormValues) => void;
   onBack: () => void;
+  isSubmitting?: boolean;
 }
 
-export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
+export function PasswordStep({
+  onSubmit,
+  onBack,
+  isSubmitting: isSubmittingFlow,
+}: PasswordStepProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: isSubmittingForm },
   } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordSchema),
   });
@@ -74,7 +79,7 @@ export function PasswordStep({ onSubmit, onBack }: PasswordStepProps) {
       <AuthStepFooter
         submitLabel={cta}
         onBack={onBack}
-        isSubmitting={isSubmitting}
+        isSubmitting={isSubmittingFlow ?? isSubmittingForm}
         loadingLabel={loadingLabel}
       />
     </form>
