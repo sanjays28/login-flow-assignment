@@ -10,19 +10,17 @@ const { heading, fields, cta } = STEP_COPY.name;
 interface NameStepProps {
   onSubmit: (data: NameFormValues) => void | Promise<void>;
   onBack: () => void;
+  defaultValues?: NameFormValues;
 }
 
-export function NameStep({ onSubmit, onBack }: NameStepProps) {
+export function NameStep({ onSubmit, onBack, defaultValues }: NameStepProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<NameFormValues>({
     resolver: zodResolver(nameSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-    },
+    defaultValues: defaultValues ?? { firstName: '', lastName: '' },
   });
 
   return (

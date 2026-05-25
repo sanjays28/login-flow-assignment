@@ -36,7 +36,7 @@ export function Button({
           'h-auto min-h-0 w-64 max-w-full shrink-0 rounded-[38px] px-8 py-4 text-sm',
         fullWidth && 'w-full',
         variant === 'primary' &&
-          'bg-primary text-text-inverse hover:bg-primary-hover active:bg-[#003db8]',
+          'bg-primary text-text-inverse hover:bg-primary-hover active:bg-primary-active',
         variant === 'outline' &&
           (size === 'step'
             ? 'border-0 bg-surface text-primary outline outline-2 outline-offset-[-2px] outline-border hover:bg-surface-muted hover:outline-primary/50 active:bg-surface-muted'

@@ -18,7 +18,7 @@ const fieldBorder = (error?: string) =>
   cn(
     'border bg-surface transition-colors',
     'focus-within:border-primary focus-within:outline-none',
-    error ? 'border-error' : 'border-[#B8CCE0]',
+    error ? 'border-error' : 'border-border-input',
   );
 
 export function PhoneInput({
@@ -45,9 +45,9 @@ export function PhoneInput({
 
   return (
     <div className="w-full min-w-0">
-      <label htmlFor={inputId} className="mb-2 block text-sm font-normal text-[#7A90AD]">
+      <label htmlFor={inputId} className="mb-2 block text-sm font-normal text-text-label">
         {label}
-        <span className="text-[#7A90AD]">*</span>
+        <span className="text-text-label">*</span>
       </label>
 
       <div className="phone-input-row flex gap-3">
@@ -91,7 +91,7 @@ export function PhoneInput({
           aria-describedby={error ? errorId : hintId}
           className={cn(
             'phone-input-number min-h-12 flex-1 rounded-lg px-4 text-base text-text-primary',
-            'placeholder:text-[#9CA3AF]',
+            'placeholder:text-text-placeholder',
             fieldBorder(error),
           )}
         />

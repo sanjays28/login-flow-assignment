@@ -22,7 +22,6 @@ export const STEP_COPY = {
   otp: {
     title: 'OTP Verification',
     subtitle: 'An OTP has been sent to your mobile number',
-    emptyHint: 'Enter all 4 digits to continue.',
     inputHint: 'Enter the 4-digit code sent to your phone.',
     resendPrefix: 'Did not receive OTP?',
     resendLink: 'Resend OTP',
@@ -64,5 +63,5 @@ export const SUCCESS_COPY = {
   title: "You're all set!",
   subtitle: "Here's a quick summary of your account details",
   security: 'Your account is secured with bank-grade security',
-  cta: 'Go to login',
+  cta: 'Go to dashboard',
 } as const;

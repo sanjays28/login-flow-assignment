@@ -8,18 +8,17 @@ import { AuthStepFooter } from '../components/AuthStepFooter';
 interface PhoneStepProps {
   onSubmit: (data: PhoneFormValues) => void | Promise<void>;
   onBack: () => void;
+  defaultValues?: PhoneFormValues;
 }
 
-export function PhoneStep({ onSubmit, onBack }: PhoneStepProps) {
+export function PhoneStep({ onSubmit, onBack, defaultValues }: PhoneStepProps) {
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
-    defaultValues: {
-      phone: '',
-    },
+    defaultValues: defaultValues ?? { phone: '' },
   });
 
   const phone = useWatch({ control, name: 'phone' });

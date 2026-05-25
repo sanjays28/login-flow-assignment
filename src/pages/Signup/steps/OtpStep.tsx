@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Loader, OTPInput } from '@/components';
 import { simulateDelay } from '@/utils';
+import { formatPhoneDisplay } from '@/utils/phone/formatPhone';
 import { otpSchema, type OtpFormValues } from '../schemas/otp.schema';
 import { STEP_COPY } from '../config/steps.config';
 import { AuthStepFooter } from '../components/AuthStepFooter';
@@ -8,9 +9,10 @@ import { AuthStepFooter } from '../components/AuthStepFooter';
 interface OtpStepProps {
   onSubmit: (data: OtpFormValues) => void | Promise<void>;
   onBack: () => void;
+  phone?: string;
 }
 
-export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
+export function OtpStep({ onSubmit, onBack, phone }: OtpStepProps) {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,7 +24,6 @@ export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
     title,
     subtitle,
     inputHint,
-    emptyHint,
     resendPrefix,
     resendLink,
     resendSent,
@@ -87,7 +88,12 @@ export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
       <h2 className="text-xl font-bold leading-snug text-text-primary sm:text-2xl">{title}</h2>
-      <p className="mt-2 text-sm text-[#9BA3AF]">{subtitle}</p>
+      <p className="mt-2 text-sm text-text-secondary">
+        {subtitle}
+        {phone && (
+          <span className="ml-1 font-medium text-text-primary">{formatPhoneDisplay(phone)}</span>
+        )}
+      </p>
 
       <div className="mt-8 w-fit max-w-full">
         <OTPInput
@@ -97,7 +103,7 @@ export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
           hint={!error && otp.length === 0 ? inputHint : undefined}
         />
 
-        <p className="mt-4 text-right text-sm text-[#9BA3AF]">
+        <p className="mt-4 text-right text-sm text-text-secondary">
           {resendPrefix}{' '}
           {canResend ? (
             <button
@@ -130,7 +136,6 @@ export function OtpStep({ onSubmit, onBack }: OtpStepProps) {
         isSubmitting={isSubmitting}
         loadingLabel={loadingLabel}
         submitDisabled={otp.length < 4}
-        emptyHint={emptyHint}
       />
     </form>
   );

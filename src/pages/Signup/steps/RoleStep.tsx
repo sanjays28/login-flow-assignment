@@ -13,9 +13,10 @@ const ACCOUNT_TYPE_ICONS = {
 
 interface RoleStepProps {
   onSubmit: (data: RoleFormValues) => void | Promise<void>;
+  defaultValues?: RoleFormValues;
 }
 
-export function RoleStep({ onSubmit }: RoleStepProps) {
+export function RoleStep({ onSubmit, defaultValues }: RoleStepProps) {
   const {
     handleSubmit,
     control,
@@ -23,7 +24,7 @@ export function RoleStep({ onSubmit }: RoleStepProps) {
     formState: { errors, isSubmitting },
   } = useForm<RoleFormValues>({
     resolver: zodResolver(roleSchema),
-    defaultValues: { accountType: 'personal' },
+    defaultValues: defaultValues ?? { accountType: 'personal' },
   });
 
   const selected = useWatch({ control, name: 'accountType' });

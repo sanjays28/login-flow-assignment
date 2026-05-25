@@ -2,6 +2,7 @@
   /* Brand */
   --color-primary: #0054fd;
   --color-primary-hover: #0046d4;
+  --color-primary-active: #003db8;
   --color-accent: #ff6b2c;
 
   /* Surfaces */
@@ -12,11 +13,14 @@
   /* Text */
   --color-text-primary: #1a1f36;
   --color-text-secondary: #6b7280;
+  --color-text-label: #7a90ad;
+  --color-text-placeholder: #9ca3af;
   --color-text-inverse: #ffffff;
   --color-text-link: #0054fd;
 
   /* Borders & states */
   --color-border: #e5e7eb;
+  --color-border-input: #b8cce0;
   --color-border-focus: #0054fd;
   --color-error: #dc2626;
   --color-success: #16a34a;

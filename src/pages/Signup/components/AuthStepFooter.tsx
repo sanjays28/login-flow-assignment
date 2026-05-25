@@ -7,7 +7,6 @@ interface AuthStepFooterProps {
   isSubmitting?: boolean;
   submitDisabled?: boolean;
   loadingLabel?: string;
-  emptyHint?: string;
 }
 
 export function AuthStepFooter({
@@ -17,17 +16,9 @@ export function AuthStepFooter({
   isSubmitting,
   submitDisabled,
   loadingLabel,
-  emptyHint,
 }: AuthStepFooterProps) {
-  const showEmptyHint = Boolean(emptyHint && submitDisabled && !isSubmitting);
-
   return (
     <div className="mt-auto pt-10">
-      {showEmptyHint && (
-        <p className="mb-4 text-center text-sm text-text-secondary transition-opacity duration-200">
-          {emptyHint}
-        </p>
-      )}
       <div className="flex items-center justify-between gap-2.5">
         <Button
           type="button"

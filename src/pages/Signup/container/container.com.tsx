@@ -56,22 +56,36 @@ export function ContainerCom({
         <AnimatePresence mode="wait">
           {step === 0 && (
             <AuthStepTransition stepKey={0}>
-              <RoleStep onSubmit={onRoleSubmit} />
+              <RoleStep
+                onSubmit={onRoleSubmit}
+                defaultValues={{ accountType: signupData.accountType ?? 'personal' }}
+              />
             </AuthStepTransition>
           )}
           {step === 1 && (
             <AuthStepTransition stepKey={1}>
-              <PhoneStep onSubmit={onPhoneSubmit} onBack={onBack} />
+              <PhoneStep
+                onSubmit={onPhoneSubmit}
+                onBack={onBack}
+                defaultValues={{ phone: signupData.phone ?? '' }}
+              />
             </AuthStepTransition>
           )}
           {step === 2 && (
             <AuthStepTransition stepKey={2}>
-              <OtpStep onSubmit={onOtpSubmit} onBack={onBack} />
+              <OtpStep onSubmit={onOtpSubmit} onBack={onBack} phone={signupData.phone} />
             </AuthStepTransition>
           )}
           {step === 3 && (
             <AuthStepTransition stepKey={3}>
-              <NameStep onSubmit={onNameSubmit} onBack={onBack} />
+              <NameStep
+                onSubmit={onNameSubmit}
+                onBack={onBack}
+                defaultValues={{
+                  firstName: signupData.firstName ?? '',
+                  lastName: signupData.lastName ?? '',
+                }}
+              />
             </AuthStepTransition>
           )}
           {step === 4 && (

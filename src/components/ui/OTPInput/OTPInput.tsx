@@ -67,7 +67,7 @@ export function OTPInput({ value, onChange, error, hint }: OTPInputProps) {
               'hover:border-primary/50',
               'focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20',
               'active:scale-[0.97]',
-              error ? 'border-error hover:border-error' : 'border-[#CBD5E0]',
+              error ? 'border-error hover:border-error' : 'border-border-input',
               isEmpty && !error && 'bg-surface-muted/40',
             )}
             onChange={(event) => updateDigit(index, event.target.value)}

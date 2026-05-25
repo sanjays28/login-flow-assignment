@@ -83,7 +83,7 @@ export function SuccessModal({ summary }: SuccessModalProps) {
           {security}
         </p>
 
-        <Button size="step" className="mt-6 w-full" onClick={() => navigate(ROUTES.LOGIN)}>
+        <Button size="step" fullWidth className="mt-6" onClick={() => navigate(ROUTES.HOME)}>
           {cta}
         </Button>
       </motion.div>
