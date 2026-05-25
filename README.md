@@ -49,19 +49,19 @@ Navigating back pre-fills the form with the previously entered values. Submittin
 
 ## Tech Stack & Why
 
-| Concern       | Choice                                                | Why                                                                                                                                                   |
-| ------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UI            | **React 19**                                          | Concurrent features, stable ecosystem                                                                                                                 |
-| Language      | **TypeScript**                                        | Catches mismatched prop types early; schemas infer their own types                                                                                    |
-| Build         | **Vite 8**                                            | Sub-second HMR, native ESM output                                                                                                                     |
-| Styling       | **Tailwind CSS v4**                                   | Utility-first with the new `@theme` block for design tokens — no extra CSS-in-JS runtime                                                              |
-| Animations    | **Framer Motion**                                     | Declarative `AnimatePresence` makes step transitions trivial; `layout` and spring physics for the progress bar                                        |
-| Forms         | **React Hook Form**                                   | Uncontrolled inputs = no re-render on each keystroke; `zodResolver` links schema directly                                                             |
-| Validation    | **Zod**                                               | Schema-first; inferred TypeScript types mean zero duplication                                                                                         |
-| Phone input   | **react-international-phone** + **libphonenumber-js** | Library handles country list and formatting; libphonenumber validates numbers per-country                                                             |
-| State machine | **XState v4**                                         | The signup flow has 11 named states and 2 events (`SUBMIT`, `BACK`). A machine makes every legal transition explicit and impossible states impossible |
-| Routing       | **React Router v7**                                   | File-based routing would be overkill here; just two routes                                                                                            |
-| Linting       | **ESLint + Prettier**                                 | Pre-commit hooks via Husky + lint-staged enforce formatting before every commit                                                                       |
+| Concern       | Choice                                                | Why                                                                                                                                                                                  |
+| ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| UI            | **React 19**                                          | Concurrent features, stable ecosystem                                                                                                                                                |
+| Language      | **TypeScript**                                        | Catches mismatched prop types early; schemas infer their own types                                                                                                                   |
+| Build         | **Vite 8**                                            | Sub-second HMR, native ESM output                                                                                                                                                    |
+| Styling       | **Tailwind CSS v4**                                   | Utility-first with the new `@theme` block for design tokens — no extra CSS-in-JS runtime                                                                                             |
+| Animations    | **Framer Motion**                                     | `AnimatePresence mode="wait"` ensures the exiting step fully unmounts before the next one enters (no overlap); progress bar width animates with a cubic-bezier ease via `motion.div` |
+| Forms         | **React Hook Form**                                   | Uncontrolled inputs = no re-render on each keystroke; `zodResolver` links schema directly                                                                                            |
+| Validation    | **Zod**                                               | Schema-first; inferred TypeScript types mean zero duplication                                                                                                                        |
+| Phone input   | **react-international-phone** + **libphonenumber-js** | Library handles country list and formatting; libphonenumber validates numbers per-country                                                                                            |
+| State machine | **XState v4**                                         | The signup flow has 11 named states and 2 events (`SUBMIT`, `BACK`). A machine makes every legal transition explicit and impossible states impossible                                |
+| Routing       | **React Router v7**                                   | File-based routing would be overkill here; just two routes                                                                                                                           |
+| Linting       | **ESLint + Prettier**                                 | Pre-commit hooks via Husky + lint-staged enforce formatting before every commit                                                                                                      |
 
 ---
 
